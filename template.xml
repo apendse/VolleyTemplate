@@ -77,6 +77,15 @@
         suggest="My${extractLetters(objectKind)}RecyclerViewAdapter"
         name="Adapter class name"
         visible="false"/>
+    <parameter
+        id="objectClass"
+        type="string"
+        constraints="nonempty|class|unique"
+        default="DummyItem"
+        suggest="${extractLetters(objectKind)}"
+        name="Item class name"
+        visible="false"
+        />
 
     <!-- 128x128 thumbnails relative to template.xml -->
     <thumbs>

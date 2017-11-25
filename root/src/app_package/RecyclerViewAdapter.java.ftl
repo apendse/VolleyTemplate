@@ -1,10 +1,20 @@
 package ${packageName};
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+
 
 import ${packageName}.${className}.OnListFragmentInteractionListener;
 import ${packageName}.dummy.DummyContent.DummyItem;
@@ -18,12 +28,19 @@ import java.util.List;
  */
 public class ${adapterClassName} extends RecyclerView.Adapter<${adapterClassName}.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<${objectClass}> mValues;
     private final OnListFragmentInteractionListener mListener;
+    private final ImageLoader imageLoader;
 
-    public ${adapterClassName}(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public ${adapterClassName}(List<${objectClass}> items, Context context, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
+        RequestQueue requestQueue = NetworkManager.getInstance().getRequestQueue(this.getClass().getName(), context);
+        imageLoader = new ImageLoader(requestQueue, new ImageLoader.ImageCache() {
+            // TODO: implement the right image cache
+            public Bitmap getBitmap(String url) {return null;}
+            public void putBitmap(String url, Bitmap bitmap) {}
+        });
     }
 
     @Override
@@ -36,10 +53,12 @@ public class ${adapterClassName} extends RecyclerView.Adapter<${adapterClassName
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mTitle.setText("Title");
+        holder.mDetails.setText("Details");
+        // Update this code to load the thumbnail image
+        // holder.mThumbnail.setImageUrl(holder.mItem.imageUrl,  imageLoader);
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
@@ -57,15 +76,17 @@ public class ${adapterClassName} extends RecyclerView.Adapter<${adapterClassName
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
 
-        @BindView(R.id.id)
-        TextView mIdView;
+        @BindView(R.id.image)
+        NetworkImageView mThumbnail;
         
-        @BindView(R.id.content)
-        TextView mContentView;
+        @BindView(R.id.title)
+        TextView mTitle;
 
-        public DummyItem mItem;
+        @BindView(R.id.details)
+        TextView mDetails;
+
+        public ${objectClass} mItem;
 
         public ViewHolder(View view) {
             super(view);
@@ -74,7 +95,7 @@ public class ${adapterClassName} extends RecyclerView.Adapter<${adapterClassName
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mTitle.getText() + "'";
         }
     }
 }

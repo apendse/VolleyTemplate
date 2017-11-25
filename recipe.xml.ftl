@@ -15,10 +15,19 @@
     <instantiate from="root/src/app_package/RecyclerViewAdapter.java.ftl"
                  to="${escapeXmlAttribute(srcOut)}/${adapterClassName}.java" />
 
+   
+    <instantiate from="root/src/app_package/NetworkManager.java.ftl" 
+                 to="${escapeXmlAttribute(srcOut)}/NetworkManager.java"/>
+
+    <merge from="root/AndroidManifest.xml.ftl"
+           to="${escapeXmlAttribute(manifestOut)}/AndroidManifest.xml" />
+
     <#include "recipe_dummy_content.xml.ftl" />
 
-    <open file="${escapeXmlAttribute(srcOut)}/${className}.java" />
+    <instantiate from="root/src/app_package/ObjectClass.java.ftl" 
+                 to="${escapeXmlAttribute(srcOut)}/${objectClass}.java"/>
 
     <merge from="root/res/values/dimens.xml"
              to="${escapeXmlAttribute(resOut)}/values/dimens.xml" />
+    <open file="${escapeXmlAttribute(srcOut)}/${className}.java" />         
 </recipe>

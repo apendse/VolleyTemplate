@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.android.volley.RequestQueue;
@@ -17,9 +18,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import java.lang.reflect.Type;
 
 <#if applicationPackage??>
 import ${applicationPackage}.R;
@@ -35,18 +41,20 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
 
-    Add these to build.gradle app
+     TODO: Add these to build.gradle app
      compile 'com.jakewharton:butterknife:8.8.1'
      annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
  
  */
 public class ${className} extends Fragment {
 
-   @BindView(R.id.title) 
+   @BindView(R.id.list) 
    RecyclerView recyclerView;
 
    @BindView(R.id.switcher)
    ViewSwitcher switcher;
+
+   Gson gson;
 
     // TODO: Customize parameters
     private int mColumnCount = ${columnCount};
@@ -60,7 +68,9 @@ public class ${className} extends Fragment {
 
 
 </#if>
-    RequestQueue queue;
+    // The queue for Volley request
+    RequestQueue requestQueue;
+
     private OnListFragmentInteractionListener mListener;
 
 <#if includeFactory>
@@ -94,35 +104,50 @@ public class ${className} extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(Bundle bundle) {
+        super.onActivityCreated(bundle);
+        requestQueue = NetworkManager.getInstance().getRequestQueue(this.getClass().getName(), getContext());
+        gson = new GsonBuilder().create();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.${fragment_layout_list}, container, false);
         ButterKnife.bind(this, view);
-        // Set the adapter
         
-            Context context = view.getContext();
-            
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }                       
-            requestQueue = Volley.newRequestQueue(this);
-            return view;
+        
+        Context context = view.getContext();
+        // Configure the recyclerview with layout manager    
+        if (mColumnCount <= 1) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+        }                       
+        makeNetworkRequest();
+        return view;
     }
     
 
+    private String buildUrl() {
+        throw new RuntimeException("Implement me!");
+    }
+
+
     private void makeNetworkRequest() {
-        final StringRequest stringRequest = new StringRequest(URL, new Response.Listener<String>() {
+        final StringRequest stringRequest = new StringRequest(buildUrl(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                // todo handle response
-                recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+                // todo: handle response
+                Type listType = new TypeToken<List<${objectClass}>>() {}.getType();
+                List<${objectClass}> list = gson.fromJson(response, listType);
+                recyclerView.setAdapter(new ${adapterClassName}(list, getContext(), mListener));
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // TODO handle error
+                // show error
+                Toast.makeText(getContext(), "Error " + error, Toast.LENGTH_SHORT).show();
             }
         });
         requestQueue.add(stringRequest);
@@ -159,6 +184,6 @@ public class ${className} extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(${objectClass} item);
     }
 }

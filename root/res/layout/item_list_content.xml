@@ -4,17 +4,29 @@
               android:layout_height="wrap_content"
               android:orientation="horizontal">
 
-    <TextView
-            android:id="@+id/id"
+    <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
             android:textAppearance="?attr/textAppearanceListItem" />
 
+   <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"    
+            orientation="vertical"
+    >
     <TextView
-            android:id="@+id/content"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
             android:textAppearance="?attr/textAppearanceListItem" />
+    <TextView
+            android:id="@+id/details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:textAppearance="?attr/textAppearanceListItem" />
+    </LinearLayout>
 </LinearLayout>

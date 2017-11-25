@@ -1,7 +1,3 @@
-<#import "../shared_manifest_macros.ftl" as manifestMacros>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-permission
-     android:name="android.permission.INTERNET"/>
-    
-    
+    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
