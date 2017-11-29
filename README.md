@@ -3,6 +3,7 @@ Android Studio template for quickly creating a Volley based networking app. Many
 
 You need to copy all the files (except this Readme file) to the location where Android Studio stores its templates. This location depends on the operating system you are using. e.g. on my MacBook, it is:
 >"/Applications/Android Studio.app/Contents/plugins/android/lib/templates/other/VolleyFrag".
+
 On Windows and Linux, you can find out based on the installation location of Android Studio. In general, I recommend that you create a directory under "other" directory located in the root directory of templates. The exact directory name (VolleyFrag) does not matter. You need to close and reopen Android Studio for this template to show up.
 
 This template creates a fragment with a recyclerview. It assumes that you are going to fetch data from the network as a list of things e.g. movies, stocks, employees, photos and so on. You need the following steps to create a working solution
