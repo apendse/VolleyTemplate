@@ -1,10 +1,10 @@
 # VolleyTemplate
 Android Studio template for quickly creating a Volley based networking app. Many times, in coding interviews, you are asked to create a list of items fetched from the network. This template helps you create a solution quickly. Saves you a lot of boiler plate code.
 
-You need to copy this file to the location where Android Studio stores its templates. This location depends on the operating system you are using. e.g. on my MacBook, it is:
->"/Applications/Android Studio.app/Contents/plugins/android/lib/templates".
+You need to copy all the files (except this Readme file) to the location where Android Studio stores its templates. This location depends on the operating system you are using. e.g. on my MacBook, it is:
+>"/Applications/Android Studio.app/Contents/plugins/android/lib/templates/other/VolleyFrag".
+On Windows and Linux, you can find out based on the installation location of Android Studio. In general, I recommend that you create a directory under "other" directory located in the root directory of templates. The exact directory name (VolleyFrag) does not matter. You need to close and reopen Android Studio for this template to show up.
 
-On Windows and Linux, you can find out based on the installation location of Android Studio.
 This template creates a fragment with a recyclerview. It assumes that you are going to fetch data from the network as a list of things e.g. movies, stocks, employees, photos and so on. You need the following steps to create a working solution
 1. Complete the object definition by adding members like title, description, thumbnail etc.
 2. Complete the buildURL() method. This depends on the URL for the API, authentication method, batching in terms of page numbers etc.
